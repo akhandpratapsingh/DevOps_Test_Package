@@ -30,26 +30,3 @@ pipeline:
                   spec:
                     shell: Sh
                     command: echo "Build step"
-    - stage:
-        name: Test
-        identifier: Test
-        description: ""
-        type: Custom
-        spec:
-          execution:
-            steps:
-              - step:
-                  type: ShellScript
-                  name: ShellScript_1
-                  identifier: ShellScript_1
-                  spec:
-                    shell: Bash
-                    executionTarget: {}
-                    source:
-                      type: Inline
-                      spec:
-                        script: echo "Test step"
-                    environmentVariables: []
-                    outputVariables: []
-                  timeout: 10m
-        tags: {}

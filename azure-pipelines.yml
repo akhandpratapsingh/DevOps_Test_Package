@@ -1,0 +1,132 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+trigger:
+- none
+pool:
+  vmImage: 'ubuntu-latest'
+stages:
+    - stage: Build
+      jobs:
+          - job: "runBuild"
+            steps:
+            - script: |
+                echo Build
+            displayName: 'Build'
+      # jobs:
+      #     - job: 'j1'
+      #       # pool: server
+      #       steps:
+      #       - task: ServiceNow-DevOps-Build-Sonar-Registration@1
+      #         inputs:
+      #           connectedServiceName: 'aitool-ProjectWithTestCases-ServiceNow DevOps Service Connection'
+      #           sonarProjectKey: 'balu_test_devops'
+      #           sonarInstanceUrl: 'http://sonarqube1.sndevops.xyz'
+            # - script: exit 1
+            #   displayName: "Force pipeline failure"
+    # - stage: Test
+    #   jobs:
+    #       - job: 'j2'
+    #         steps:
+    #         - task: PublishPipelineArtifact@1
+    #           inputs:
+    #             targetPath: '$(Pipeline.Workspace)'
+    #             artifact: 'PipelineWithTestSonarArtifacts-2'
+    #             publishLocation: 'pipeline'
+    #         - task: PublishBuildArtifacts@1
+    #           inputs:
+    #             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    #             ArtifactName: 'PipelineWithTestSonarArtifacts-1'
+    #             publishLocation: 'Container'
+    #         - task: Maven@3
+    #           inputs:
+    #             mavenPomFile: 'pom.xml'
+    #             mavenOptions: '-Xmx3072m'
+    #             javaHomeOption: 'JDKVersion'
+    #             jdkVersionOption: '1.8'
+    #             jdkArchitectureOption: 'x64'
+    #             publishJUnitResults: true
+    #             testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    #             goals: 'test'
+    #             testRunTitle: 'j2'
+    # - stage: artifactAndPackage 
+    #   jobs:
+    #       - job: 'j3'
+    #         # pool: agent
+    #         steps:
+    #         - task: ServiceNow-DevOps-Agent-Artifact-Registration@1
+    #           inputs:
+    #             connectedServiceName: 'akhandsingh-ProjectWithTestCases-ServiceNow DevOps Service Connection'
+    #             artifactsPayload: |
+    #               {
+    #               "artifacts": [
+    #                   {
+    #                     "name": "az-artifact1",
+    #                     "version": "1.$(build.buildId)",
+    #                     "semanticVersion": "1.$(build.buildId).0",
+    #                     "repositoryName": "repo1"
+    #                   },
+    #                   {
+    #                     "name": "az-artifact2",
+    #                     "version": "1.$(build.buildId)",
+    #                     "semanticVersion": "1.$(build.buildId).0",
+    #                     "repositoryName": "empb5-old"
+    #                   }
+    #                 ],
+    #                 "pipelineName": "$(system.teamProject)/$(build.definitionName)",
+    #                 "taskExecutionNumber": "$(build.buildId)",
+    #                 "stageName": "$(System.StageDisplayName)/$(system.jobDisplayName)",
+    #                 "branchName": "$(build.sourceBranchName)"
+    #               }
+    #         - task: ServiceNow-DevOps-Agent-Package-Registration@1
+    #           inputs:
+    #             connectedServiceName: 'akhandsingh-ProjectWithTestCases-ServiceNow DevOps Service Connection'
+    #             packageName: 'TestingPackage-APS'
+    #             artifactsPayload: |
+    #               {
+    #               "artifacts": [
+    #                 {
+    #                   "name": "az-artifact1",
+    #                   "version": "1.$(build.buildId)",
+    #                   "semanticVersion": "1.$(build.buildId).0",
+    #                   "repositoryName": "repo1"
+    #                 },
+    #                 {
+    #                   "name": "az-artifact2",
+    #                   "version": "1.$(build.buildId)",
+    #                   "semanticVersion": "1.$(build.buildId).0",
+    #                   "repositoryName": "empb5-old"
+    #                 }],
+    #                 "pipelineName":"$(system.teamProject)/$(build.definitionName)",
+    #                 "taskExecutionNumber":"$(build.buildId)",
+    #                 "stageName":"$(system.jobDisplayName)",
+    #                 "branchName":"$(build.sourceBranchName)"
+    #               }
+          
+    # - stage: Security
+    #   jobs:
+    #       - job: 'j6'
+    #         # pool: server
+    #         steps:
+    #         - task: ServiceNow-DevOps-Build-Security-Results@1
+    #           inputs:
+    #             connectedServiceName: 'akhandtokyo2-ProjectWithTestCases-ServiceNow DevOps Service Connection'
+    #             securityResultAttributes: '{"scanner":"Veracode", "applicationName": "PetStoreAPI-Github", "buildVersion":"" , "securityToolId": "e813d866877ba1102e7f97d73cbb35e3"}'
+    - stage: prodDeploy
+      dependsOn: Build
+      jobs:
+          - job: 'j6'
+            pool: server
+            steps:
+            - task: ServiceNow-DevOps-Server-Change-Acceleration@1
+              inputs:
+                connectedServiceName: 'apszp6-ProjectWithTestCases-ServiceNow DevOps Service Connection'
+                changeRequestDetails: |
+                  {
+                      "autoCloseChange" : true,
+                      "attributes": {
+                        "start_date": "2021-01-05 08:00:00",
+                        "end_date": "2021-01-08 08:00:00"
+                      }
+                    }

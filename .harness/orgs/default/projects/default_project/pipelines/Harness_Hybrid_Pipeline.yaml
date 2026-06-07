@@ -6,8 +6,36 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: Scaning
-        identifier: Scaning
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          platform:
+            os: MacOS
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec:
+              harnessImageConnectorRef: account.harnessImage
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: echo "Build stage"
+    - stage:
+        name: Test
+        identifier: Test
         description: ""
         type: Custom
         spec:
@@ -23,7 +51,7 @@ pipeline:
                     source:
                       type: Inline
                       spec:
-                        script: echo "Scanning step"
+                        script: sh "Test stage"
                     environmentVariables: []
                     outputVariables: []
                   timeout: 10m

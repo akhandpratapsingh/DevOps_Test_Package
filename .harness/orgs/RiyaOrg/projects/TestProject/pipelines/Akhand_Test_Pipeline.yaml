@@ -1,0 +1,55 @@
+pipeline:
+  name: Akhand Test Pipeline
+  identifier: Akhand_Test_Pipeline
+  projectIdentifier: TestProject
+  orgIdentifier: RiyaOrg
+  tags: {}
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: false
+          caching:
+            enabled: true
+            override: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: echo "Build step"
+    - stage:
+        name: Test
+        identifier: Test
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "Test step"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}

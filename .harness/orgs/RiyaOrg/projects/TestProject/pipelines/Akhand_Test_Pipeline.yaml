@@ -11,7 +11,7 @@ pipeline:
         description: ""
         type: CI
         spec:
-          cloneCodebase: false
+          cloneCodebase: true
           caching:
             enabled: true
             override: false
@@ -29,7 +29,7 @@ pipeline:
                   identifier: Run_1
                   spec:
                     shell: Sh
-                    command: echo "Build step"
+                    command: echo "Build Stage"
   notificationRules:
     - name: akhand test pipeline notify
       identifier: akhand_test_pipeline_notify
@@ -52,3 +52,9 @@ pipeline:
         spec:
           webhookUrl: https://apszp6.service-now.com/api/sn_devops/v2/devops/tool/orchestration?toolId=b7d7ff02939947907f37f65ea903d696&projectId=8728ff42939947907f37f65ea903d6e9&ni.nolog.token=nqd5fskIj1VprFrNVOYMWqccy7sgDls7
       enabled: true
+  properties:
+    ci:
+      codebase:
+        connectorRef: Akhand_Github
+        repoName: DevOps_Test_Package
+        build: <+input>

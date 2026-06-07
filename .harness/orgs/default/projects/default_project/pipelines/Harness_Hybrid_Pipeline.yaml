@@ -6,58 +6,25 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: Build
-        identifier: Build
+        name: Scaning
+        identifier: Scaning
         description: ""
-        type: CI
+        type: Custom
         spec:
-          cloneCodebase: false
-          caching:
-            enabled: true
-            override: true
-          buildIntelligence:
-            enabled: true
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Docker
-            spec:
-              harnessImageConnectorRef: account.harnessImage
           execution:
             steps:
               - step:
-                  type: Run
-                  name: Build Step
-                  identifier: Run_1
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
                   spec:
-                    shell: Sh
-                    command: echo :"Build step"
-    - stage:
-        name: Test
-        identifier: Test
-        description: ""
-        type: CI
-        spec:
-          cloneCodebase: false
-          caching:
-            enabled: true
-            override: true
-          buildIntelligence:
-            enabled: true
-          platform:
-            os: Linux
-            arch: Amd64
-          runtime:
-            type: Docker
-            spec:
-              harnessImageConnectorRef: account.harnessImage
-          execution:
-            steps:
-              - step:
-                  type: Run
-                  name: Test step
-                  identifier: Test_step
-                  spec:
-                    shell: Sh
-                    command: echo "test step 2"
+                    shell: Bash
+                    executionTarget: {}
+                    source:
+                      type: Inline
+                      spec:
+                        script: echo "Scanning step"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}

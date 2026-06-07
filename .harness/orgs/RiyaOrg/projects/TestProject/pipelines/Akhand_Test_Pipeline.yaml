@@ -30,3 +30,25 @@ pipeline:
                   spec:
                     shell: Sh
                     command: echo "Build step"
+  notificationRules:
+    - name: akhand test pipeline notify
+      identifier: akhand_test_pipeline_notify
+      pipelineEvents:
+        - type: PipelineEnd
+        - type: StageFailed
+          forStages:
+            - AllStages
+        - type: StageSuccess
+          forStages:
+            - AllStages
+        - type: StageStart
+          forStages:
+            - AllStages
+        - type: StepFailed
+          forSteps:
+            - AllSteps
+      notificationMethod:
+        type: Webhook
+        spec:
+          webhookUrl: https://apszp6.service-now.com/api/sn_devops/v2/devops/tool/orchestration?toolId=b7d7ff02939947907f37f65ea903d696&projectId=8728ff42939947907f37f65ea903d6e9&ni.nolog.token=nqd5fskIj1VprFrNVOYMWqccy7sgDls7
+      enabled: true

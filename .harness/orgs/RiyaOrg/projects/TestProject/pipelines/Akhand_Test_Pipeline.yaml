@@ -58,3 +58,5 @@ pipeline:
         connectorRef: Akhand_Github
         repoName: DevOps_Test_Package
         build: <+input>
+        sparseCheckout: []
+        depth: 10

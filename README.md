@@ -1,3 +1,3 @@
 DevOps Test with packages
 
-Harness 3
+Harness 0

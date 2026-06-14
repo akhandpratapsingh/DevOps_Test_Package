@@ -1,0 +1,49 @@
+pipeline:
+  name: Harness Github Pipeline
+  identifier: Harness_Github_Pipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Stage1
+        identifier: Stage1
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Create File
+                  identifier: Create_File
+                  spec:
+                    shell: Sh
+                    command: |
+                      echo "Created by Harness Stage1" > stage1.txt
+                      ls -la
+
+    - stage:
+        name: Stage2
+        identifier: Stage2
+        type: CI
+        spec:
+          cloneCodebase: true
+          infrastructure:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Verify File
+                  identifier: Verify_File
+                  spec:
+                    shell: Sh
+                    command: |
+                      echo "Stage2 Running"
+                      pwd
+                      ls -la

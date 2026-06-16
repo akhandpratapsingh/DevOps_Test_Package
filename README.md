@@ -1,3 +1,3 @@
 DevOps Test with packages
 
-main 6
+main 7

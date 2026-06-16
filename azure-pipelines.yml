@@ -121,7 +121,7 @@ stages:
             steps:
             - task: ServiceNow-DevOps-Server-Change-Acceleration@1
               inputs:
-                connectedServiceName: 'apszp6-ProjectWithTestCases-ServiceNow DevOps Service Connection'
+                connectedServiceName: 'apszp7-ProjectWithTestCases-ServiceNow DevOps Service Connection'
                 changeRequestDetails: |
                   {
                       "autoCloseChange" : true,
